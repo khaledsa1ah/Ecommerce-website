@@ -1,0 +1,104 @@
+﻿@using OnlineShop.Models;
+@using X.PagedList.Mvc.Common
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Products>
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 10px;
+        padding: 10px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .card img.card-img-top {
+        max-height: 300px;
+        object-fit: cover;
+    }
+
+    .card h4 {
+        font-size: 23px;
+        color: steelblue;
+        margin: 0;
+    }
+
+    .card-label {
+        font-size: 20px;
+        color: #a51313;
+    }
+
+    /* Style for the "Details" button */
+    .btn-outline-info {
+        background-color: transparent;
+        border-color: #17a2b8;
+        color: #17a2b8;
+    }
+
+        .btn-outline-info:hover {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+    /* Style for the pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .pagination a {
+            color: #007BFF;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #007BFF;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+            .pagination a:hover {
+                background-color: #007BFF;
+                color: #fff;
+            }
+
+    /* Center the page content */
+    .container {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+<br/><br/>
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        <label style="font-size: 23px;color: steelblue">@product.Name</label>
+                    </h4>
+                </div>
+                <img src="~/@product.Image" alt="Card Image" class="card-img-top" style="height: 300px;"/>
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <label style="font-size: 20px;color: #a51313"><b>Price : @product.Price</b></label>
+                        </div>
+                        <a asp-action="Detail" asp-controller="Home" asp-route-id="@product.Id" class="btn btn-success pull-right btn-outline-info">Deatils</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div>
+    @Html.PagedListPager(Model,c=>Href("~/Customer/Home/Index?page="+c),PagedListRenderOptionsBase.PageNumbersOnly)
+</div>
